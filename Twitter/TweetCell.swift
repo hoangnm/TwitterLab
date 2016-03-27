@@ -19,6 +19,9 @@ class TweetCell: UITableViewCell {
         didSet {
             nameLabel.text = tweet.name
             tweetLabel.text = tweet.text
+            if let screename = tweet.screenName {
+                usernameLabel.text = "@" + screename
+            }
             if let avatar = tweet.avatarUser {
                 avatarImageView.setImageWithURL(avatar)
             }

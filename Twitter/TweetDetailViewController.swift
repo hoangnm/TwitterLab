@@ -26,8 +26,13 @@ class TweetDetailViewController: UIViewController {
         avatarImageView.setImageWithURL(tweet.avatarUser!)
         nameLabel.text = tweet.name
         tweetLabel.text = tweet.text
+        if let screename = tweet.screenName {
+            usernameLabel.text = "@" + screename
+        }
         retweetsCountLabel.text = String(tweet.retweetCount)
         favoritesCountLabel.text = String(tweet.favoritesCount)
+        
+        
     }
 
     override func didReceiveMemoryWarning() {

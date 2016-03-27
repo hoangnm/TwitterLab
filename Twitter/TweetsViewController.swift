@@ -81,7 +81,7 @@ extension TweetsViewController: UITableViewDelegate, UITableViewDataSource {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 120
+        tableView.estimatedRowHeight = 150
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
