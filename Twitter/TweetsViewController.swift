@@ -16,19 +16,31 @@ class TweetsViewController: UIViewController, NewTweetViewDelegate {
     
     var tweets = [Tweet]()
     
+    var loadingMoreView:InfiniteScrollActivityView?
+    
+    var page = 1
+    var isMoreDataLoading = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         
-        fetchHomeTimeline(hasRefresh: nil)
+        fetchHomeTimeline(hasRefresh: nil, isInfinite: false)
         initTableView()
         initRefreshControl()
+        initInfiniteScroll()
     }
     
-    func fetchHomeTimeline(hasRefresh refreshControl: UIRefreshControl?) {
-        TwitterClient.sharedInstance.homeTimeLine({ (tweets: [Tweet]) in
-            self.tweets = tweets
+    func fetchHomeTimeline(hasRefresh refreshControl: UIRefreshControl?, isInfinite: Bool) {
+        TwitterClient.sharedInstance.homeTimeLine(page, success: { (tweets: [Tweet]) in
+            if isInfinite {
+                self.loadingMoreView!.stopAnimating()
+                self.isMoreDataLoading = false
+                self.tweets.appendContentsOf(tweets)
+            } else {
+                self.tweets = tweets
+            }
             
             dispatch_async(dispatch_get_main_queue(), { 
                 self.tableView.reloadData()
@@ -75,6 +87,42 @@ class TweetsViewController: UIViewController, NewTweetViewDelegate {
 
 }
 
+extension TweetsViewController: UIScrollViewDelegate {
+    
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        if (!isMoreDataLoading) {
+            // Calculate the position of one screen length before the bottom of the results
+            let scrollViewContentHeight = tableView.contentSize.height
+            let scrollOffsetThreshold = scrollViewContentHeight - tableView.bounds.size.height
+            
+            // When the user has scrolled past the threshold, start requesting
+            if(scrollView.contentOffset.y > scrollOffsetThreshold && tableView.dragging) {
+                isMoreDataLoading = true
+                
+                // Update position of loadingMoreView, and start loading indicator
+                let frame = CGRectMake(0, tableView.contentSize.height, tableView.bounds.size.width, InfiniteScrollActivityView.defaultHeight)
+                loadingMoreView?.frame = frame
+                loadingMoreView!.startAnimating()
+                
+                // Code to load more results
+                page = page + 1
+                fetchHomeTimeline(hasRefresh: nil, isInfinite: true)
+            }
+        }
+    }
+    
+    func initInfiniteScroll() {
+        let frame = CGRectMake(0, tableView.contentSize.height, tableView.bounds.size.width, InfiniteScrollActivityView.defaultHeight)
+        loadingMoreView = InfiniteScrollActivityView(frame: frame)
+        loadingMoreView!.hidden = true
+        tableView.addSubview(loadingMoreView!)
+        
+        var insets = tableView.contentInset;
+        insets.bottom += InfiniteScrollActivityView.defaultHeight;
+        tableView.contentInset = insets
+    }
+}
+
 extension TweetsViewController: TweetDetailDelegate {
     func updateTweet(tweet: Tweet) {
         tableView.reloadData()
@@ -90,7 +138,8 @@ extension TweetsViewController {
     }
     
     func refreshControlAction(refreshControl: UIRefreshControl) {
-        fetchHomeTimeline(hasRefresh: refreshControl)
+        page = 1
+        fetchHomeTimeline(hasRefresh: refreshControl, isInfinite: false)
     }
 }
 
