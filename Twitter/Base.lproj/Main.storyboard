@@ -175,6 +175,7 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="avatarImageView" destination="cuh-ym-HxH" id="nn1-1A-e6g"/>
+                                            <outlet property="favoriteButton" destination="IKM-rY-yYw" id="aEu-oP-yQz"/>
                                             <outlet property="nameLabel" destination="SUj-rV-DxB" id="FBZ-ir-RSl"/>
                                             <outlet property="timeLabel" destination="aY4-RW-eDh" id="LU8-ke-Boy"/>
                                             <outlet property="tweetLabel" destination="oYY-D8-cBq" id="lKK-A9-PZR"/>
@@ -208,6 +209,7 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
                         <outlet property="tableView" destination="1C2-bj-Wx5" id="SCJ-do-WgN"/>
+                        <segue destination="C8B-FH-A4B" kind="presentation" identifier="NewTweetSegue" id="60F-H7-UwN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4jL-ry-Q6G" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -510,6 +512,6 @@
         <image name="restart" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Rvt-xw-1Cu"/>
+        <segue reference="60F-H7-UwN"/>
     </inferredMetricsTieBreakers>
 </document>

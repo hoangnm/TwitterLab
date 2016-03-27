@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TweetsViewController: UIViewController {
+class TweetsViewController: UIViewController, NewTweetViewDelegate {
 
     // MARK: - Attributes
     
@@ -39,6 +39,11 @@ class TweetsViewController: UIViewController {
         }
     }
     
+    func didUpdateTweet(updatedTweet: Tweet) {
+        tweets.insert(updatedTweet, atIndex: 0)
+        self.tableView.reloadData()
+    }
+    
     @IBAction func logoutClick(sender: AnyObject) {
         TwitterClient.sharedInstance.logout()
     }
@@ -53,6 +58,12 @@ class TweetsViewController: UIViewController {
         if let tweetDetailVC = segue.destinationViewController as? TweetDetailViewController, let cell = sender as? TweetCell {
             let indexPath = tableView.indexPathForCell(cell)!
             tweetDetailVC.tweet = tweets[indexPath.row]
+        } else if let newTweetVC = segue.destinationViewController as? NewTweetViewController {
+            if let cell = sender as? TweetCell {
+                let indexPath = tableView.indexPathForCell(cell)!
+                newTweetVC.replyId = tweets[indexPath.row].id
+            }
+            newTweetVC.delegate = self
         }
     }
     
@@ -75,7 +86,7 @@ extension TweetsViewController {
     }
 }
 
-extension TweetsViewController: UITableViewDelegate, UITableViewDataSource {
+extension TweetsViewController: UITableViewDelegate, UITableViewDataSource, TweetCellDelegate {
     
     func initTableView() {
         tableView.dataSource = self
@@ -92,6 +103,23 @@ extension TweetsViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCellWithIdentifier("TweetCell") as! TweetCell
         let tweet = tweets[indexPath.row]
         cell.tweet = tweet
+        cell.delegate = self
         return cell
+    }
+    
+    func reply(tweetId: String, cell: TweetCell) {
+        performSegueWithIdentifier("NewTweetSegue", sender: cell)
+    }
+    
+    func retweet(tweetId: String) {
+        TwitterClient.sharedInstance.retweet(tweetId, success: { (tweet: Tweet) in
+            print("success")
+        }) { (error: NSError) in
+            
+        }
+    }
+    
+    func addToFavorite(tweetId: String) {
+        TwitterClient.sharedInstance.addFavoriteTweet(tweetId, success: nil, failure: nil)
     }
 }

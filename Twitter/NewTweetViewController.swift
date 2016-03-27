@@ -8,6 +8,10 @@
 
 import UIKit
 
+@objc protocol NewTweetViewDelegate {
+    func didUpdateTweet(updatedTweet: Tweet)
+}
+
 class NewTweetViewController: UIViewController, UITextViewDelegate {
     
     // MARK: - Atributes
@@ -15,6 +19,8 @@ class NewTweetViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var tweetTextView: UITextView!
     @IBOutlet weak var tweetBarButton: UIBarButtonItem!
+    
+    weak var delegate: NewTweetViewDelegate?
     
     var replyId: String?
     
@@ -48,8 +54,8 @@ class NewTweetViewController: UIViewController, UITextViewDelegate {
     func addNewTweet() {
         if let status = tweetTextView.text {
             TwitterClient.sharedInstance.updateTweet(status, success: { (tweet: Tweet) in
-                print(tweet)
-                self.performSegueWithIdentifier("UnwindTweetSegue", sender: self)
+                self.dismissViewControllerAnimated(true, completion: nil)
+                self.delegate?.didUpdateTweet(tweet)
             }) { (error: NSError) in
                 
             }
@@ -59,8 +65,9 @@ class NewTweetViewController: UIViewController, UITextViewDelegate {
     func replyTweet() {
         if let status = tweetTextView.text {
             TwitterClient.sharedInstance.replyTweet(status, replyId: replyId!, success: { (tweet: Tweet) in
-                print("success")
-                }, failure: { (error: NSError) in
+                self.performSegueWithIdentifier("UnwindTweetSegue", sender: self)
+                self.delegate?.didUpdateTweet(tweet)
+            }, failure: { (error: NSError) in
                     
             })
         }

@@ -58,14 +58,14 @@ class TwitterClient: BDBOAuth1SessionManager {
         }
     }
     
-    func addFavoriteTweet(tweetId: String, success: (Tweet) -> (), failure: (NSError) -> ()) {
+    func addFavoriteTweet(tweetId: String, success: ((Tweet) -> ())?, failure: ((NSError) -> ())?) {
         let params = ["id": tweetId]
         POST("1.1/favorites/create.json", parameters: params, progress: nil, success: { (task: NSURLSessionDataTask, response: AnyObject?) in
             let dictionary = response as! NSDictionary
             let tweet = Tweet(dictionary: dictionary)
-            success(tweet)
+            success?(tweet)
         }) { (task: NSURLSessionDataTask?, error: NSError) in
-            failure(error)
+            failure?(error)
         }
     }
     
