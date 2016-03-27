@@ -19,10 +19,16 @@ class NewTweetViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var tweetTextView: UITextView!
     @IBOutlet weak var tweetBarButton: UIBarButtonItem!
+    @IBOutlet weak var newTweetNavigationItem: UINavigationItem!
+    
+    let countLabel = UILabel()
     
     weak var delegate: NewTweetViewDelegate?
     
     var replyId: String?
+    
+    let tweetLimit = 140
+    var remainingCharacter = 140
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,6 +36,13 @@ class NewTweetViewController: UIViewController, UITextViewDelegate {
         // Do any additional setup after loading the view.
         tweetTextView.delegate = self
         tweetTextView.becomeFirstResponder()
+        
+        countLabel.text = String(tweetLimit)
+        countLabel.textColor = UIColor.lightGrayColor()
+        countLabel.sizeToFit()
+        let labelButton = UIBarButtonItem(customView: countLabel)
+        newTweetNavigationItem.rightBarButtonItems?.append(labelButton)
+        
         
         let user = User.currentUser!
         avatarImageView.setImageWithURL(user.profileUrl!)
@@ -77,9 +90,16 @@ class NewTweetViewController: UIViewController, UITextViewDelegate {
     
     func textViewDidChange(textView: UITextView) {
         if tweetTextView.text.isEmpty == false {
-            tweetBarButton.enabled = true
+            remainingCharacter = tweetLimit - textView.text.characters.count
+            countLabel.text = String(remainingCharacter)
+            if remainingCharacter < 0 {
+                tweetBarButton.enabled = false
+            } else {
+                tweetBarButton.enabled = true
+            }
         } else {
             tweetBarButton.enabled = false
+            countLabel.text = String(tweetLimit)
         }
     }
     

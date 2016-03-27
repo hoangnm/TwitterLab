@@ -476,6 +476,7 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
                         <outlet property="avatarImageView" destination="h1a-px-MzQ" id="WHN-MQ-TDm"/>
+                        <outlet property="newTweetNavigationItem" destination="pqw-9i-6It" id="TJV-CL-aV0"/>
                         <outlet property="tweetBarButton" destination="JaS-Fd-RYM" id="EqH-a9-4eh"/>
                         <outlet property="tweetTextView" destination="YVH-Sj-BZF" id="6JY-TF-8V3"/>
                         <segue destination="OYJ-aQ-VKy" kind="unwind" identifier="UnwindTweetSegue" unwindAction="unwindSegueInTweetsViewController:" id="vTP-nY-AyO"/>
