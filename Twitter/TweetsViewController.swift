@@ -43,15 +43,22 @@ class TweetsViewController: UIViewController {
         TwitterClient.sharedInstance.logout()
     }
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        if let tweetDetailVC = segue.destinationViewController as? TweetDetailViewController, let cell = sender as? TweetCell {
+            let indexPath = tableView.indexPathForCell(cell)!
+            tweetDetailVC.tweet = tweets[indexPath.row]
+        }
     }
-    */
+    
+    @IBAction func unwindSegueInTweetsViewController(segue: UIStoryboardSegue) {
+    
+    }
 
 }
 
