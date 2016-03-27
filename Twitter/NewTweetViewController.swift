@@ -26,9 +26,14 @@ class NewTweetViewController: UIViewController, UITextViewDelegate {
     weak var delegate: NewTweetViewDelegate?
     
     var replyId: String?
+    var replyUserName: String?
     
     let tweetLimit = 140
-    var remainingCharacter = 140
+    var remainingCharacter = 140 {
+        didSet {
+            countLabel.text = String(remainingCharacter)
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,6 +51,11 @@ class NewTweetViewController: UIViewController, UITextViewDelegate {
         
         let user = User.currentUser!
         avatarImageView.setImageWithURL(user.profileUrl!)
+        
+        if replyUserName != nil {
+            tweetTextView.text = "@\(replyUserName!) "
+            remainingCharacter = tweetLimit - tweetTextView.text.characters.count
+        }
         
         if tweetTextView.text.isEmpty {
             tweetBarButton.enabled = false
@@ -67,22 +77,22 @@ class NewTweetViewController: UIViewController, UITextViewDelegate {
     func addNewTweet() {
         if let status = tweetTextView.text {
             TwitterClient.sharedInstance.updateTweet(status, success: { (tweet: Tweet) in
-                self.dismissViewControllerAnimated(true, completion: nil)
                 self.delegate?.didUpdateTweet(tweet)
             }) { (error: NSError) in
                 
             }
+            self.dismissViewControllerAnimated(true, completion: nil)
         }
     }
     
     func replyTweet() {
         if let status = tweetTextView.text {
             TwitterClient.sharedInstance.replyTweet(status, replyId: replyId!, success: { (tweet: Tweet) in
-                self.performSegueWithIdentifier("UnwindTweetSegue", sender: self)
                 self.delegate?.didUpdateTweet(tweet)
             }, failure: { (error: NSError) in
                     
             })
+            self.dismissViewControllerAnimated(true, completion: nil)
         }
     }
     
@@ -91,7 +101,6 @@ class NewTweetViewController: UIViewController, UITextViewDelegate {
     func textViewDidChange(textView: UITextView) {
         if tweetTextView.text.isEmpty == false {
             remainingCharacter = tweetLimit - textView.text.characters.count
-            countLabel.text = String(remainingCharacter)
             if remainingCharacter < 0 {
                 tweetBarButton.enabled = false
             } else {
@@ -99,7 +108,7 @@ class NewTweetViewController: UIViewController, UITextViewDelegate {
             }
         } else {
             tweetBarButton.enabled = false
-            countLabel.text = String(tweetLimit)
+            remainingCharacter = tweetLimit
         }
     }
     

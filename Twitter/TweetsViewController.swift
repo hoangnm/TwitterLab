@@ -63,6 +63,7 @@ class TweetsViewController: UIViewController, NewTweetViewDelegate {
             if let cell = sender as? TweetCell {
                 let indexPath = tableView.indexPathForCell(cell)!
                 newTweetVC.replyId = tweets[indexPath.row].id
+                newTweetVC.replyUserName = tweets[indexPath.row].screenName
             }
             newTweetVC.delegate = self
         }
