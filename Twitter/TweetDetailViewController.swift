@@ -8,6 +8,10 @@
 
 import UIKit
 
+@objc protocol TweetDetailDelegate {
+    func updateTweet(tweet: Tweet)
+}
+
 class TweetDetailViewController: UIViewController {
     
     @IBOutlet weak var avatarImageView: UIImageView!
@@ -17,8 +21,13 @@ class TweetDetailViewController: UIViewController {
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var retweetsCountLabel: UILabel!
     @IBOutlet weak var favoritesCountLabel: UILabel!
+    @IBOutlet weak var favoriteButton: UIButton!
+    @IBOutlet weak var retweetButton: UIButton!
+    
+    weak var delegate: TweetDetailDelegate?
     
     var tweet: Tweet!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -32,20 +41,48 @@ class TweetDetailViewController: UIViewController {
         retweetsCountLabel.text = String(tweet.retweetCount)
         favoritesCountLabel.text = String(tweet.favoritesCount)
         
+        let formatter = NSDateFormatter()
+        formatter.dateFormat = "dd/MM/yyyy hh:mm"
+        timeLabel.text = formatter.stringFromDate(tweet.timestamp!)
         
+        if (tweet.screenName == User.currentUser!.screenName) {
+            retweetButton.enabled = false
+        }
+        
+        toggleFavoriteButton()
+        toggleRetweetButton()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    override func viewWillDisappear(animated: Bool) {
+        delegate?.updateTweet(tweet)
     }
     
-    @IBAction func favoritesClick(sender: AnyObject) {
-        TwitterClient.sharedInstance.addFavoriteTweet(tweet.id!, success: { (tweet: Tweet) in
-            print("success")
-        }) { (error: NSError) in
-            
+    func toggleFavoriteButton() {
+        let isFavorite = tweet.favorited
+        if isFavorite {
+            favoriteButton.setImage(UIImage(named: "chrismas_star_filled"), forState: .Normal)
+            favoriteButton.tintColor = UIColor.yellowColor()
+        } else {
+            favoriteButton.setImage(UIImage(named: "chrismas_star"), forState: .Normal)
+            favoriteButton.tintColor = UIColor.darkGrayColor()
         }
+    }
+    
+    func toggleRetweetButton() {
+        if tweet.retweeted {
+            retweetButton.tintColor = UIColor.greenColor()
+        } else {
+            retweetButton.tintColor = UIColor.darkGrayColor()
+        }
+    }
+
+    
+    @IBAction func favoritesClick(sender: AnyObject) {
+        tweet.favorited = !tweet.favorited
+        toggleFavoriteButton()
+        TwitterClient.sharedInstance.addFavoriteTweet(tweet.id!, favorite: tweet.favorited, success: { (tweet: Tweet) in
+            print("success")
+        }, failure: nil)
     }
 
     @IBAction func replyClick(sender: AnyObject) {
@@ -53,7 +90,9 @@ class TweetDetailViewController: UIViewController {
     }
     
     @IBAction func retweetClick(sender: AnyObject) {
-        TwitterClient.sharedInstance.retweet(tweet.id!, success: { (tweet: Tweet) in
+        tweet.retweeted = !tweet.retweeted
+        toggleRetweetButton()
+        TwitterClient.sharedInstance.retweet(tweet.id!, retweet: tweet.retweeted, success: { (tweet: Tweet) in
             print("success")
         }) { (error: NSError) in
             

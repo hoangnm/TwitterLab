@@ -9,9 +9,9 @@
 import UIKit
 
 @objc protocol TweetCellDelegate {
-    func addToFavorite(tweetId: String)
-    func reply(tweetId: String, cell: TweetCell)
-    func retweet(tweetId: String)
+    func addToFavorite(tweet: Tweet, target: TweetCell?)
+    func reply(tweet: Tweet, target: TweetCell?)
+    func retweet(tweet: Tweet, target: TweetCell?)
 }
 
 class TweetCell: UITableViewCell {
@@ -21,8 +21,7 @@ class TweetCell: UITableViewCell {
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var tweetLabel: UILabel!
     @IBOutlet weak var favoriteButton: UIButton!
-    
-    var isFavorite = false
+    @IBOutlet weak var retweetButton: UIButton!
     
     weak var delegate: TweetCellDelegate?
     
@@ -37,7 +36,16 @@ class TweetCell: UITableViewCell {
                 avatarImageView.setImageWithURL(avatar)
             }
             
-            //timeLabel.text = String(tweet.timestamp)
+            toggleRetweetButton()
+            toggleFavoriteButton()
+            
+            let formatter = NSDateFormatter()
+            formatter.dateFormat = "dd/MM/yyyy"
+            timeLabel.text = formatter.stringFromDate(tweet.timestamp!)
+            
+            if (tweet.screenName == User.currentUser!.screenName) {
+                retweetButton.enabled = false
+            }
         }
     }
 
@@ -53,22 +61,33 @@ class TweetCell: UITableViewCell {
     }
 
     @IBAction func replyClick(sender: AnyObject) {
-        delegate?.reply(tweet.id!, cell: self)
+        delegate?.reply(tweet, target: self)
     }
     @IBAction func retweetClick(sender: AnyObject) {
-        delegate?.retweet(tweet.id!)
+        tweet.retweeted = !tweet.retweeted
+        delegate?.retweet(tweet, target: nil)
     }
     @IBAction func ratingClick(sender: AnyObject) {
-        toggleFavoriteButton()
-        delegate?.addToFavorite(tweet.id!)
+        tweet.favorited = !tweet.favorited
+        delegate?.addToFavorite(tweet, target: nil)
+    }
+    
+    func toggleRetweetButton() {
+        if tweet.retweeted {
+            retweetButton.tintColor = UIColor.greenColor()
+        } else {
+            retweetButton.tintColor = UIColor.darkGrayColor()
+        }
     }
     
     func toggleFavoriteButton() {
-        isFavorite = !isFavorite
-        if isFavorite {
-            favoriteButton.setImage(UIImage(named: "chrismas_star_filled"), forState: .Normal)
+        if tweet.favorited {
+            let image = UIImage(named: "chrismas_star_filled")
+            favoriteButton.setImage(image, forState: .Normal)
+            favoriteButton.tintColor = UIColor.yellowColor()
         } else {
             favoriteButton.setImage(UIImage(named: "chrismas_star"), forState: .Normal)
+            favoriteButton.tintColor = UIColor.darkGrayColor()
         }
     }
 }

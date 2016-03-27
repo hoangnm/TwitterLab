@@ -58,6 +58,7 @@ class TweetsViewController: UIViewController, NewTweetViewDelegate {
         if let tweetDetailVC = segue.destinationViewController as? TweetDetailViewController, let cell = sender as? TweetCell {
             let indexPath = tableView.indexPathForCell(cell)!
             tweetDetailVC.tweet = tweets[indexPath.row]
+            tweetDetailVC.delegate = self
         } else if let newTweetVC = segue.destinationViewController as? NewTweetViewController {
             if let cell = sender as? TweetCell {
                 let indexPath = tableView.indexPathForCell(cell)!
@@ -67,10 +68,16 @@ class TweetsViewController: UIViewController, NewTweetViewDelegate {
         }
     }
     
-    @IBAction func unwindSegueInTweetsViewController(segue: UIStoryboardSegue) {
-    
-    }
+    /*@IBAction func unwindSegueInTweetsViewController(segue: UIStoryboardSegue) {
+       
+    }*/
 
+}
+
+extension TweetsViewController: TweetDetailDelegate {
+    func updateTweet(tweet: Tweet) {
+        tableView.reloadData()
+    }
 }
 
 extension TweetsViewController {
@@ -100,26 +107,28 @@ extension TweetsViewController: UITableViewDelegate, UITableViewDataSource, Twee
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("TweetCell") as! TweetCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("TweetCell", forIndexPath: indexPath) as! TweetCell
         let tweet = tweets[indexPath.row]
         cell.tweet = tweet
         cell.delegate = self
         return cell
     }
     
-    func reply(tweetId: String, cell: TweetCell) {
-        performSegueWithIdentifier("NewTweetSegue", sender: cell)
+    func reply(tweet: Tweet, target: TweetCell?) {
+        performSegueWithIdentifier("NewTweetSegue", sender: target!)
     }
     
-    func retweet(tweetId: String) {
-        TwitterClient.sharedInstance.retweet(tweetId, success: { (tweet: Tweet) in
+    func retweet(tweet: Tweet, target: TweetCell?) {
+        tableView.reloadData()
+        TwitterClient.sharedInstance.retweet(tweet.id!, retweet: tweet.retweeted, success: { (tweet: Tweet) in
             print("success")
         }) { (error: NSError) in
             
         }
     }
     
-    func addToFavorite(tweetId: String) {
-        TwitterClient.sharedInstance.addFavoriteTweet(tweetId, success: nil, failure: nil)
+    func addToFavorite(tweet: Tweet, target: TweetCell?) {
+        tableView.reloadData()
+        TwitterClient.sharedInstance.addFavoriteTweet(tweet.id!, favorite: tweet.favorited, success: nil, failure: nil)
     }
 }
