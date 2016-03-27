@@ -45,6 +45,10 @@ class TweetCell: UITableViewCell {
             if let retweetedStatusScreenName = tweet.retweetedStatusScreenName {
                 retweetLabel.text = "\(retweetedStatusScreenName) has retweeted"
                 retweetLabel.hidden = false
+                imageVerticalTopConstraint.constant = 25
+                nameVerticalTopConstraint.constant = 25
+                usernameVerticalTopConstraint.constant = 25
+                hourVerticalTopConstraint.constant = 25
             } else {
                 retweetLabel.hidden = true
                 imageVerticalTopConstraint.constant = 8
