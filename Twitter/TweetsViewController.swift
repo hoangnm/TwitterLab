@@ -20,25 +20,19 @@ class TweetsViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 120
         
-        fetchHomeTimeline()
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        fetchHomeTimeline(hasRefresh: nil)
+        initTableView()
+        initRefreshControl()
     }
     
-    func fetchHomeTimeline() {
+    func fetchHomeTimeline(hasRefresh refreshControl: UIRefreshControl?) {
         TwitterClient.sharedInstance.homeTimeLine({ (tweets: [Tweet]) in
             self.tweets = tweets
             
             dispatch_async(dispatch_get_main_queue(), { 
                 self.tableView.reloadData()
+                refreshControl?.endRefreshing()
             })
         }) { (error: NSError) in
             
@@ -61,10 +55,32 @@ class TweetsViewController: UIViewController {
 
 }
 
+extension TweetsViewController {
+    
+    func initRefreshControl() {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refreshControlAction(_:)), forControlEvents: .ValueChanged)
+        tableView.insertSubview(refreshControl, atIndex: 0)
+    }
+    
+    func refreshControlAction(refreshControl: UIRefreshControl) {
+        fetchHomeTimeline(hasRefresh: refreshControl)
+    }
+}
+
 extension TweetsViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func initTableView() {
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 120
+    }
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tweets.count
     }
+    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("TweetCell") as! TweetCell
         let tweet = tweets[indexPath.row]
