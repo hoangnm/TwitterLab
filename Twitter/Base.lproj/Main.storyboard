@@ -71,33 +71,39 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="131.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Cg-ah-nCg">
+                                                    <rect key="frame" x="45" y="5" width="33" height="16"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="cuh-ym-HxH" userLabel="Avatar Image View">
-                                                    <rect key="frame" x="8" y="8" width="60" height="60"/>
+                                                    <rect key="frame" x="8" y="25" width="60" height="60"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="60" id="YDv-aI-h9G"/>
                                                         <constraint firstAttribute="height" constant="60" id="YlL-db-kuN"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Hoang Nguyen" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SUj-rV-DxB" userLabel="Name Label">
-                                                    <rect key="frame" x="76" y="8" width="95" height="16"/>
+                                                    <rect key="frame" x="76" y="25" width="95" height="16"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="@hoangnguyen" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DWs-e1-Vtp" userLabel="Username Label">
-                                                    <rect key="frame" x="176" y="8" width="95" height="16"/>
+                                                    <rect key="frame" x="176" y="25" width="95" height="16"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Content" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oYY-D8-cBq" userLabel="Tweet Label">
-                                                    <rect key="frame" x="76" y="32" width="236" height="43"/>
+                                                    <rect key="frame" x="76" y="49" width="236" height="26"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4h" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aY4-RW-eDh" userLabel="Time Label">
-                                                    <rect key="frame" x="296" y="8" width="16" height="16"/>
+                                                    <rect key="frame" x="296" y="25" width="16" height="16"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
@@ -160,18 +166,20 @@
                                             <constraints>
                                                 <constraint firstItem="oYY-D8-cBq" firstAttribute="top" secondItem="SUj-rV-DxB" secondAttribute="bottom" constant="8" id="9DD-7e-Smy"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="ckT-ic-HGU" secondAttribute="trailing" constant="8" id="9aw-FJ-lDm"/>
+                                                <constraint firstItem="5Cg-ah-nCg" firstAttribute="top" secondItem="WN2-Fx-FPZ" secondAttribute="top" constant="5" id="INl-BG-0R9"/>
                                                 <constraint firstItem="cuh-ym-HxH" firstAttribute="leading" secondItem="WN2-Fx-FPZ" secondAttribute="leading" constant="8" id="O1W-BE-fzM"/>
-                                                <constraint firstItem="aY4-RW-eDh" firstAttribute="top" secondItem="WN2-Fx-FPZ" secondAttribute="top" constant="8" id="Ocw-rM-c7c"/>
-                                                <constraint firstItem="DWs-e1-Vtp" firstAttribute="top" secondItem="WN2-Fx-FPZ" secondAttribute="top" constant="8" id="PDb-Q4-WMn"/>
+                                                <constraint firstItem="aY4-RW-eDh" firstAttribute="top" secondItem="WN2-Fx-FPZ" secondAttribute="top" constant="25" id="Ocw-rM-c7c"/>
+                                                <constraint firstItem="DWs-e1-Vtp" firstAttribute="top" secondItem="WN2-Fx-FPZ" secondAttribute="top" constant="25" id="PDb-Q4-WMn"/>
                                                 <constraint firstAttribute="trailing" secondItem="aY4-RW-eDh" secondAttribute="trailing" constant="8" id="VE1-8A-0rp"/>
-                                                <constraint firstItem="cuh-ym-HxH" firstAttribute="top" secondItem="WN2-Fx-FPZ" secondAttribute="top" constant="8" id="aD2-cU-EdS"/>
+                                                <constraint firstItem="cuh-ym-HxH" firstAttribute="top" secondItem="WN2-Fx-FPZ" secondAttribute="top" constant="25" id="aD2-cU-EdS"/>
                                                 <constraint firstItem="ckT-ic-HGU" firstAttribute="top" secondItem="oYY-D8-cBq" secondAttribute="bottom" constant="8" id="b9m-ZD-NAC"/>
                                                 <constraint firstAttribute="trailing" secondItem="oYY-D8-cBq" secondAttribute="trailing" constant="8" id="d6I-94-Dqr"/>
                                                 <constraint firstItem="ckT-ic-HGU" firstAttribute="leading" secondItem="oYY-D8-cBq" secondAttribute="leading" id="ePq-3c-sxR"/>
                                                 <constraint firstItem="SUj-rV-DxB" firstAttribute="leading" secondItem="cuh-ym-HxH" secondAttribute="trailing" constant="8" id="fZ5-sE-Gcs"/>
+                                                <constraint firstItem="5Cg-ah-nCg" firstAttribute="leading" secondItem="WN2-Fx-FPZ" secondAttribute="leading" constant="45" id="gcZ-hS-7WK"/>
                                                 <constraint firstItem="oYY-D8-cBq" firstAttribute="leading" secondItem="cuh-ym-HxH" secondAttribute="trailing" constant="8" id="mWu-Fs-gJI"/>
                                                 <constraint firstItem="aY4-RW-eDh" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="DWs-e1-Vtp" secondAttribute="trailing" constant="3" id="rOP-0X-sGC"/>
-                                                <constraint firstItem="SUj-rV-DxB" firstAttribute="top" secondItem="WN2-Fx-FPZ" secondAttribute="top" constant="8" id="z9E-VD-pDi"/>
+                                                <constraint firstItem="SUj-rV-DxB" firstAttribute="top" secondItem="WN2-Fx-FPZ" secondAttribute="top" constant="25" id="z9E-VD-pDi"/>
                                                 <constraint firstItem="DWs-e1-Vtp" firstAttribute="leading" secondItem="SUj-rV-DxB" secondAttribute="trailing" constant="5" id="zAC-OY-bA1"/>
                                                 <constraint firstAttribute="bottom" secondItem="ckT-ic-HGU" secondAttribute="bottom" constant="8" id="zXm-aZ-VD3"/>
                                             </constraints>
@@ -179,11 +187,16 @@
                                         <connections>
                                             <outlet property="avatarImageView" destination="cuh-ym-HxH" id="nn1-1A-e6g"/>
                                             <outlet property="favoriteButton" destination="IKM-rY-yYw" id="aEu-oP-yQz"/>
+                                            <outlet property="hourVerticalTopConstraint" destination="Ocw-rM-c7c" id="DwU-ge-S6R"/>
+                                            <outlet property="imageVerticalTopConstraint" destination="aD2-cU-EdS" id="pb5-41-sfI"/>
                                             <outlet property="nameLabel" destination="SUj-rV-DxB" id="FBZ-ir-RSl"/>
+                                            <outlet property="nameVerticalTopConstraint" destination="z9E-VD-pDi" id="OnG-Rw-7KW"/>
                                             <outlet property="retweetButton" destination="wBY-W6-HV9" id="L7R-EN-yye"/>
+                                            <outlet property="retweetLabel" destination="5Cg-ah-nCg" id="1lW-qP-gSf"/>
                                             <outlet property="timeLabel" destination="aY4-RW-eDh" id="LU8-ke-Boy"/>
                                             <outlet property="tweetLabel" destination="oYY-D8-cBq" id="lKK-A9-PZR"/>
                                             <outlet property="usernameLabel" destination="DWs-e1-Vtp" id="7N7-Dm-bJZ"/>
+                                            <outlet property="usernameVerticalTopConstraint" destination="PDb-Q4-WMn" id="dde-Sa-FbG"/>
                                             <segue destination="7cL-XF-OXt" kind="show" id="y3m-T4-alK"/>
                                         </connections>
                                     </tableViewCell>
@@ -521,6 +534,6 @@
         <image name="restart" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Rvt-xw-1Cu"/>
+        <segue reference="WGo-Ha-q02"/>
     </inferredMetricsTieBreakers>
 </document>

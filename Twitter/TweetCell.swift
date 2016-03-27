@@ -22,6 +22,12 @@ class TweetCell: UITableViewCell {
     @IBOutlet weak var tweetLabel: UILabel!
     @IBOutlet weak var favoriteButton: UIButton!
     @IBOutlet weak var retweetButton: UIButton!
+    @IBOutlet weak var retweetLabel: UILabel!
+    
+    @IBOutlet weak var imageVerticalTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var nameVerticalTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var usernameVerticalTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var hourVerticalTopConstraint: NSLayoutConstraint!
     
     weak var delegate: TweetCellDelegate?
     
@@ -36,8 +42,16 @@ class TweetCell: UITableViewCell {
                 avatarImageView.setImageWithURL(avatar)
             }
             
-            toggleRetweetButton()
-            toggleFavoriteButton()
+            if let retweetedStatusScreenName = tweet.retweetedStatusScreenName {
+                retweetLabel.text = "\(retweetedStatusScreenName) has retweeted"
+                retweetLabel.hidden = false
+            } else {
+                retweetLabel.hidden = true
+                imageVerticalTopConstraint.constant = 8
+                nameVerticalTopConstraint.constant = 8
+                usernameVerticalTopConstraint.constant = 8
+                hourVerticalTopConstraint.constant = 8
+            }
             
             let formatter = NSDateFormatter()
             formatter.dateFormat = "dd/MM/yyyy"

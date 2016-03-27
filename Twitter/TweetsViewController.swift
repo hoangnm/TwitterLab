@@ -161,6 +161,8 @@ extension TweetsViewController: UITableViewDelegate, UITableViewDataSource, Twee
         let tweet = tweets[indexPath.row]
         cell.tweet = tweet
         cell.delegate = self
+        cell.toggleRetweetButton()
+        cell.toggleFavoriteButton()
         return cell
     }
     
