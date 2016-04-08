@@ -21,15 +21,18 @@ class TweetsViewController: UIViewController, NewTweetViewDelegate {
     var page = 1
     var isMoreDataLoading = false
     
+    var isFirstLoad = true
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         
-        fetchHomeTimeline(hasRefresh: nil, isInfinite: false)
+        //fetchHomeTimeline(hasRefresh: nil, isInfinite: false)
         initTableView()
         initRefreshControl()
         initInfiniteScroll()
+        
     }
     
     func fetchHomeTimeline(hasRefresh refreshControl: UIRefreshControl?, isInfinite: Bool) {
@@ -42,9 +45,13 @@ class TweetsViewController: UIViewController, NewTweetViewDelegate {
                 self.tweets = tweets
             }
             
-            dispatch_async(dispatch_get_main_queue(), { 
-                self.tableView.reloadData()
+            dispatch_async(dispatch_get_main_queue(), {
+                if self.isFirstLoad {
+                    self.isFirstLoad = false
+                }
                 refreshControl?.endRefreshing()
+                self.tableView.separatorColor = UIColor.grayColor()
+                self.tableView.reloadData()
             })
         }) { (error: NSError) in
             
@@ -65,8 +72,6 @@ class TweetsViewController: UIViewController, NewTweetViewDelegate {
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
         if let tweetDetailVC = segue.destinationViewController as? TweetDetailViewController, let cell = sender as? TweetCell {
             let indexPath = tableView.indexPathForCell(cell)!
             tweetDetailVC.tweet = tweets[indexPath.row]
@@ -80,10 +85,6 @@ class TweetsViewController: UIViewController, NewTweetViewDelegate {
             newTweetVC.delegate = self
         }
     }
-    
-    /*@IBAction func unwindSegueInTweetsViewController(segue: UIStoryboardSegue) {
-       
-    }*/
 
 }
 
@@ -135,6 +136,9 @@ extension TweetsViewController {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refreshControlAction(_:)), forControlEvents: .ValueChanged)
         tableView.insertSubview(refreshControl, atIndex: 0)
+        
+        refreshControl.beginRefreshing()
+        refreshControlAction(refreshControl)
     }
     
     func refreshControlAction(refreshControl: UIRefreshControl) {
@@ -150,6 +154,7 @@ extension TweetsViewController: UITableViewDelegate, UITableViewDataSource, Twee
         tableView.delegate = self
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 150
+        tableView.separatorColor = UIColor.whiteColor()
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -164,6 +169,14 @@ extension TweetsViewController: UITableViewDelegate, UITableViewDataSource, Twee
         cell.toggleRetweetButton()
         cell.toggleFavoriteButton()
         return cell
+    }
+    
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        if isFirstLoad {
+            return 0
+        } else {
+            return 1
+        }
     }
     
     func reply(tweet: Tweet, target: TweetCell?) {

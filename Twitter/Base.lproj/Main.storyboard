@@ -60,9 +60,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="132" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="1C2-bj-Wx5">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="132" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="1C2-bj-Wx5">
                                 <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TweetCell" rowHeight="132" id="JdN-Ud-3B1" customClass="TweetCell" customModule="Twitter" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="320" height="132"/>
@@ -305,8 +306,15 @@
                                             </mask>
                                         </variation>
                                     </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fxW-xe-0Cz" userLabel="Border View">
+                                        <rect key="frame" x="20" y="116" width="280" height="1"/>
+                                        <color key="backgroundColor" red="0.8001802885" green="0.8001802885" blue="0.8001802885" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="1" id="2Cs-KT-1qA"/>
+                                        </constraints>
+                                    </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nN1-N8-5u0" userLabel="Tweet Count View">
-                                        <rect key="frame" x="0.0" y="115" width="320" height="63"/>
+                                        <rect key="frame" x="0.0" y="117" width="320" height="63"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X6F-jA-yCa" userLabel="Count Retweets Label">
                                                 <rect key="frame" x="8" y="21" width="44.5" height="21"/>
@@ -346,8 +354,16 @@
                                             <constraint firstItem="3Mt-sH-yWk" firstAttribute="leading" secondItem="X6F-jA-yCa" secondAttribute="trailing" constant="5" id="wwR-kC-jx7"/>
                                         </constraints>
                                     </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jzr-Rh-fCP" userLabel="Border View 2">
+                                        <rect key="frame" x="20" y="180" width="280" height="1"/>
+                                        <color key="backgroundColor" red="0.8001802885" green="0.8001802885" blue="0.8001802885" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="tintColor" red="0.8001802885" green="0.8001802885" blue="0.8001802885" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="1" id="Wb1-S9-1Tj"/>
+                                        </constraints>
+                                    </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FzQ-BD-Ycf" userLabel="Tweet Action View">
-                                        <rect key="frame" x="0.0" y="177" width="320" height="53"/>
+                                        <rect key="frame" x="0.0" y="181" width="320" height="53"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="31M-p2-uyu" userLabel="Reply Button">
                                                 <rect key="frame" x="16" y="16" width="20" height="20"/>
@@ -402,14 +418,26 @@
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="nN1-N8-5u0" secondAttribute="trailing" id="9Ca-UB-NSU"/>
                                     <constraint firstAttribute="trailing" secondItem="FzQ-BD-Ycf" secondAttribute="trailing" id="C8g-UB-Nh7"/>
+                                    <constraint firstItem="fxW-xe-0Cz" firstAttribute="top" secondItem="rLz-gr-kVY" secondAttribute="bottom" id="Grq-6d-rPi"/>
                                     <constraint firstAttribute="trailing" secondItem="rLz-gr-kVY" secondAttribute="trailing" id="Ibb-fP-ABY"/>
+                                    <constraint firstAttribute="trailing" secondItem="fxW-xe-0Cz" secondAttribute="trailing" constant="20" id="La0-Ay-gh3"/>
                                     <constraint firstItem="FzQ-BD-Ycf" firstAttribute="leading" secondItem="T3W-ZW-NXU" secondAttribute="leading" id="N7K-gC-jYj"/>
                                     <constraint firstItem="rLz-gr-kVY" firstAttribute="leading" secondItem="T3W-ZW-NXU" secondAttribute="leading" id="QBQ-5c-lpU"/>
                                     <constraint firstItem="nN1-N8-5u0" firstAttribute="leading" secondItem="T3W-ZW-NXU" secondAttribute="leading" id="VgR-LN-tl7"/>
+                                    <constraint firstItem="nN1-N8-5u0" firstAttribute="top" secondItem="fxW-xe-0Cz" secondAttribute="bottom" id="YwB-o8-tTR"/>
+                                    <constraint firstItem="fxW-xe-0Cz" firstAttribute="leading" secondItem="T3W-ZW-NXU" secondAttribute="leading" constant="20" id="ayN-Qn-9lD"/>
+                                    <constraint firstAttribute="trailing" secondItem="Jzr-Rh-fCP" secondAttribute="trailing" constant="20" id="dwg-sP-yMM"/>
+                                    <constraint firstItem="Jzr-Rh-fCP" firstAttribute="leading" secondItem="T3W-ZW-NXU" secondAttribute="leading" constant="20" id="qcZ-Yb-zUh"/>
                                     <constraint firstItem="rLz-gr-kVY" firstAttribute="top" secondItem="T3W-ZW-NXU" secondAttribute="top" id="rvx-fc-WXD"/>
                                     <constraint firstItem="FzQ-BD-Ycf" firstAttribute="top" secondItem="nN1-N8-5u0" secondAttribute="bottom" constant="-1" id="uXN-IP-8pR"/>
-                                    <constraint firstItem="nN1-N8-5u0" firstAttribute="top" secondItem="rLz-gr-kVY" secondAttribute="bottom" constant="-1" id="yz0-cg-YOh"/>
+                                    <constraint firstItem="Jzr-Rh-fCP" firstAttribute="top" secondItem="nN1-N8-5u0" secondAttribute="bottom" id="viv-zZ-ZK4"/>
+                                    <constraint firstItem="FzQ-BD-Ycf" firstAttribute="top" secondItem="Jzr-Rh-fCP" secondAttribute="bottom" id="xf8-hX-HGj"/>
                                 </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="uXN-IP-8pR"/>
+                                    </mask>
+                                </variation>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

@@ -70,6 +70,7 @@ class TweetCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+       layoutMargins = UIEdgeInsetsZero
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -77,7 +78,7 @@ class TweetCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-
+    
     @IBAction func replyClick(sender: AnyObject) {
         delegate?.reply(tweet, target: self)
     }
